@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createUser } from "../auth/firebase";
+import { createUser, signUpWithGoogle } from "../auth/firebase";
 
 function Register() {
   const [firstName, setFirstName] = useState("");
@@ -11,11 +11,14 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createUser(email, password, navigate);
+    const displayName = `${firstName} ${lastName}`;
+    createUser(email, password, navigate, displayName);
 
     console.log(firstName, lastName, email, password);
   };
-
+  const handleGoogleProvider = () => {
+    signUpWithGoogle(navigate);
+  };
   return (
     <form
       className="justify-center container text-center"
@@ -62,10 +65,18 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-
-      <button type="submit" className="btn btn-danger mt-4">
-        Register
-      </button>
+      <div class="d-grid gap-3 mt-5 ">
+        <button className="btn btn-danger " type="submit">
+          Register
+        </button>
+        <button
+          className="btn btn-danger"
+          type="button"
+          onClick={handleGoogleProvider}
+        >
+          Continue With Google
+        </button>
+      </div>
     </form>
   );
 }

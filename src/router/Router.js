@@ -4,6 +4,7 @@ import Login from "../pages/Login";
 import Main from "../pages/Main";
 import MovieDetail from "../pages/MovieDetail";
 import Register from "../pages/Register";
+import PrivateRouter from "./PrivateRouter";
 
 const Router = () => {
   return (
@@ -13,7 +14,9 @@ const Router = () => {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/detail/:id" element={<MovieDetail />} />
+        <Route path="/detail/:id" element={<PrivateRouter />}>
+          <Route path="" element={<MovieDetail />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

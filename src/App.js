@@ -1,15 +1,14 @@
-import { useEffect } from "react";
 import "./App.css";
-import { userObserver } from "./auth/firebase";
+
+import AuthContextProvider from "./context/AuthContext";
 import Router from "./router/Router";
 
 function App() {
-  useEffect(() => {
-    userObserver();
-  }, []);
   return (
-    <div className="App">
-      <Router />
+    <div>
+      <AuthContextProvider>
+        <Router />
+      </AuthContextProvider>
     </div>
   );
 }

@@ -2,7 +2,10 @@ import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  GoogleAuthProvider,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 
@@ -42,16 +45,29 @@ export const signIn = async (email, password, navigate) => {
   }
 };
 
-export const userObserver =
-  (auth,
-  (user) => {
+export const userObserver = (setCurrentUser) => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
+      const { email, displayName, photoURL } = user;
+      setCurrentUser({ email, displayName, photoURL });
       console.log(user);
     } else {
-      console.log("user signed out");
+      setCurrentUser(false);
+      console.log("sign out");
     }
   });
+};
 
 export const logOut = () => {
   signOut(auth);
+};
+export const signUpWithGoogle = (navigate) => {
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      navigate("/");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };

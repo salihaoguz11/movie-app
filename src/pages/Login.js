@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signIn } from "../auth/firebase";
+import { signIn, signUpWithGoogle } from "../auth/firebase";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,10 +13,12 @@ const Login = () => {
 
     console.log(email, password);
   };
-
+  const handleGoogleProvider = () => {
+    signUpWithGoogle(navigate);
+  };
   return (
     <form
-      className="justify-center container text-center"
+      className="justify-center container text-center mt-5"
       onSubmit={handleSubmit}
     >
       <h2 className="text-danger mt-4 text-center">Sign In</h2>
@@ -42,9 +44,18 @@ const Login = () => {
         />
       </div>
 
-      <button type="submit" className="btn btn-danger mt-4">
-        Login
-      </button>
+      <div class="d-grid gap-3 mt-5 ">
+        <button className="btn btn-danger " type="submit">
+          Login
+        </button>
+        <button
+          className="btn btn-danger"
+          type="button"
+          onClick={handleGoogleProvider}
+        >
+          Continue With Google
+        </button>
+      </div>
     </form>
   );
 };
